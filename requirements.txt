@@ -1,0 +1,10 @@
+folktables
+jupyter
+numba~=0.55.2
+numpy~=1.22.4
+cleanlab~=2.0.0
+sklearn~=0.0
+scikit-learn~=1.1.1
+scipy~=1.8.1
+pandas~=1.4.3
+duckdb
