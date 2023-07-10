@@ -45,5 +45,13 @@ class CardioDataset(Dataset):
             data_priv = data[data.gender == 1]
             data_nonpriv = data[data.gender != 1]
             return data_priv, data_nonpriv
+        elif criteria == 'age@45':
+            data_priv = data[data.age > 45]
+            data_nonpriv = data[data.age <= 45]
+            return data_priv, data_nonpriv
+        elif criteria == 'age@55':
+            data_priv = data[data.age > 55]
+            data_nonpriv = data[data.age <= 55]
+            return data_priv, data_nonpriv
         else:
             raise ValueError(f"Unsupported: {criteria}")

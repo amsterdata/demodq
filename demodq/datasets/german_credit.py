@@ -57,5 +57,13 @@ class GermanCreditDataset(Dataset):
             data_priv = data[data.age > 25]
             data_nonpriv = data[data.age <= 25]
             return data_priv, data_nonpriv
+        elif criteria == 'sex':
+            data_priv = data[data.personal_status.isin(['A91', 'A93', 'A94'])]
+            data_nonpriv = data[~data.personal_status.notin(['A91', 'A93', 'A94'])]
+            return data_priv, data_nonpriv
+        elif criteria == 'foreign_worker':
+            data_priv = data[data.foreign_worker == 'A202']
+            data_nonpriv = data[data.foreign_worker != 'A202']
+            return data_priv, data_nonpriv
         else:
             raise ValueError(f"Unsupported: {criteria}")
