@@ -55,3 +55,31 @@ class CardioDataset(Dataset):
             return data_priv, data_nonpriv
         else:
             raise ValueError(f"Unsupported: {criteria}")
+
+    def partition_data_by(self, data, criteria1, criteria2):
+        if criteria1 == 'sex' and criteria2 == 'age@45':
+            data_priv_priv = data[(data.gender == 1) & (data.age > 45)]
+            data_priv_nonpriv = data[(data.gender == 1) & (data.age <= 45)]
+            data_nonpriv_priv = data[(data.gender != 1) & (data.age > 45)]
+            data_nonpriv_nonpriv = data[(data.gender != 1) & (data.age <= 45)]
+            return data_priv_priv, data_priv_nonpriv, data_nonpriv_priv, data_nonpriv_nonpriv
+        elif criteria1 == 'age@45' and criteria2 == 'sex':
+            data_priv_priv = data[(data.age > 45) & (data.gender == 1)]
+            data_priv_nonpriv = data[(data.age > 45) & (data.gender != 1)]
+            data_nonpriv_priv = data[(data.age <= 45) & (data.gender == 1)]
+            data_nonpriv_nonpriv = data[(data.age <= 45) & (data.gender != 1)]
+            return data_priv_priv, data_priv_nonpriv, data_nonpriv_priv, data_nonpriv_nonpriv
+        elif criteria1 == 'sex' and criteria2 == 'age@55':
+            data_priv_priv = data[(data.age > 55) & (data.gender == 1)]
+            data_priv_nonpriv = data[(data.age > 55) & (data.gender != 1)]
+            data_nonpriv_priv = data[(data.age <= 55) & (data.gender == 1)]
+            data_nonpriv_nonpriv = data[(data.age <= 55) & (data.gender != 1)]
+            return data_priv_priv, data_priv_nonpriv, data_nonpriv_priv, data_nonpriv_nonpriv
+        elif criteria1 == 'age@55' and criteria2 == 'sex':
+            data_priv_priv = data[(data.age > 55) & (data.gender == 1)]
+            data_priv_nonpriv = data[(data.age > 55) & (data.gender != 1)]
+            data_nonpriv_priv = data[(data.age <= 55) & (data.gender == 1)]
+            data_nonpriv_nonpriv = data[(data.age <= 55) & (data.gender != 1)]
+            return data_priv_priv, data_priv_nonpriv, data_nonpriv_priv, data_nonpriv_nonpriv
+        else:
+            raise ValueError(f"Unsupported: {criteria1} {criteria2}")

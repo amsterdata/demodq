@@ -71,3 +71,19 @@ class AdultDataset(Dataset):
             return data_priv, data_nonpriv
         else:
             raise ValueError(f"Unsupported: {criteria}")
+
+    def partition_data_by(self, data, criteria1, criteria2):
+        if criteria1 == 'race' and criteria2 == 'sex':
+            data_priv_priv = data[(data.race == 'White') & (data.sex == 'Male')]
+            data_priv_nonpriv = data[(data.race == 'White') & (data.sex != 'Male')]
+            data_nonpriv_priv = data[(data.race != 'White') & (data.sex == 'Male')]
+            data_nonpriv_nonpriv = data[(data.race != 'White') & (data.sex != 'Male')]
+            return data_priv_priv, data_priv_nonpriv, data_nonpriv_priv, data_nonpriv_nonpriv
+        elif criteria1 == 'sex' and criteria2 == 'race':
+            data_priv_priv = data[(data.sex == 'Male') & (data.race == 'White')]
+            data_priv_nonpriv = data[(data.sex == 'Male') & (data.race != 'White')]
+            data_nonpriv_priv = data[(data.sex != 'Male') & (data.race == 'White')]
+            data_nonpriv_nonpriv = data[(data.sex != 'Male') & (data.race != 'White')]
+            return data_priv_priv, data_priv_nonpriv, data_nonpriv_priv, data_nonpriv_nonpriv
+        else:
+            raise ValueError(f"Unsupported: {criteria1} {criteria2}")
