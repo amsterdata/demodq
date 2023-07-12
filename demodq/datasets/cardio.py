@@ -45,6 +45,10 @@ class CardioDataset(Dataset):
             data_priv = data[data.gender == 1]
             data_nonpriv = data[data.gender != 1]
             return data_priv, data_nonpriv
+        elif criteria == 'age@35':
+            data_priv = data[data.age > 35]
+            data_nonpriv = data[data.age <= 35]
+            return data_priv, data_nonpriv
         elif criteria == 'age@45':
             data_priv = data[data.age > 45]
             data_nonpriv = data[data.age <= 45]
@@ -57,7 +61,19 @@ class CardioDataset(Dataset):
             raise ValueError(f"Unsupported: {criteria}")
 
     def partition_data_by(self, data, criteria1, criteria2):
-        if criteria1 == 'sex' and criteria2 == 'age@45':
+        if criteria1 == 'sex' and criteria2 == 'age@35':
+            data_priv_priv = data[(data.gender == 1) & (data.age > 35)]
+            data_priv_nonpriv = data[(data.gender == 1) & (data.age <= 35)]
+            data_nonpriv_priv = data[(data.gender != 1) & (data.age > 35)]
+            data_nonpriv_nonpriv = data[(data.gender != 1) & (data.age <= 35)]
+            return data_priv_priv, data_priv_nonpriv, data_nonpriv_priv, data_nonpriv_nonpriv
+        elif criteria1 == 'age@35' and criteria2 == 'sex':
+            data_priv_priv = data[(data.age > 35) & (data.gender == 1)]
+            data_priv_nonpriv = data[(data.age > 35) & (data.gender != 1)]
+            data_nonpriv_priv = data[(data.age <= 35) & (data.gender == 1)]
+            data_nonpriv_nonpriv = data[(data.age <= 35) & (data.gender != 1)]
+            return data_priv_priv, data_priv_nonpriv, data_nonpriv_priv, data_nonpriv_nonpriv
+        elif criteria1 == 'sex' and criteria2 == 'age@45':
             data_priv_priv = data[(data.gender == 1) & (data.age > 45)]
             data_priv_nonpriv = data[(data.gender == 1) & (data.age <= 45)]
             data_nonpriv_priv = data[(data.gender != 1) & (data.age > 45)]
