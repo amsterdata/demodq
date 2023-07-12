@@ -59,7 +59,7 @@ class GermanCreditDataset(Dataset):
             return data_priv, data_nonpriv
         elif criteria == 'sex':
             data_priv = data[data.personal_status.isin(['A91', 'A93', 'A94'])]
-            data_nonpriv = data[~data.personal_status.notin(['A91', 'A93', 'A94'])]
+            data_nonpriv = data[~data.personal_status.isin(['A91', 'A93', 'A94'])]
             return data_priv, data_nonpriv
         elif criteria == 'foreign_worker':
             data_priv = data[data.foreign_worker == 'A202']
@@ -78,8 +78,8 @@ class GermanCreditDataset(Dataset):
         elif criteria1 == 'sex' and criteria2 == 'age':
             data_priv_priv = data[(data.personal_status.isin(['A91', 'A93', 'A94'])) & (data.age > 25)]
             data_priv_nonpriv = data[(data.personal_status.isin(['A91', 'A93', 'A94'])) & (data.age <= 25)]
-            data_nonpriv_priv = data[(~data.personal_status.notin(['A91', 'A93', 'A94'])) & (data.age > 25)]
-            data_nonpriv_nonpriv = data[(~data.personal_status.notin(['A91', 'A93', 'A94'])) & (data.age <= 25)]
+            data_nonpriv_priv = data[(~data.personal_status.isin(['A91', 'A93', 'A94'])) & (data.age > 25)]
+            data_nonpriv_nonpriv = data[(~data.personal_status.isin(['A91', 'A93', 'A94'])) & (data.age <= 25)]
             return data_priv_priv, data_priv_nonpriv, data_nonpriv_priv, data_nonpriv_nonpriv
         elif criteria1 == 'age' and criteria2 == 'foreign_worker':
             data_priv_priv = data[(data.age > 25) & (data.foreign_worker == 'A202')]
@@ -92,6 +92,18 @@ class GermanCreditDataset(Dataset):
             data_priv_nonpriv = data[(data.foreign_worker == 'A202') & (data.age <= 25)]
             data_nonpriv_priv = data[(data.foreign_worker != 'A202') & (data.age > 25)]
             data_nonpriv_nonpriv = data[(data.foreign_worker != 'A202') & (data.age <= 25)]
+            return data_priv_priv, data_priv_nonpriv, data_nonpriv_priv, data_nonpriv_nonpriv
+        elif criteria1 == 'sex' and criteria2 == 'foreign_worker':
+            data_priv_priv = data[(data.personal_status.isin(['A91', 'A93', 'A94'])) & (data.foreign_worker == 'A202')]
+            data_priv_nonpriv = data[(data.personal_status.isin(['A91', 'A93', 'A94'])) & (data.foreign_worker != 'A202')]
+            data_nonpriv_priv = data[(~data.personal_status.isin(['A91', 'A93', 'A94'])) & (data.foreign_worker == 'A202')]
+            data_nonpriv_nonpriv = data[(~data.personal_status.isin(['A91', 'A93', 'A94'])) & (data.foreign_worker != 'A202')]
+            return data_priv_priv, data_priv_nonpriv, data_nonpriv_priv, data_nonpriv_nonpriv
+        elif criteria1 == 'foreign_worker' and criteria2 == 'sex':
+            data_priv_priv = data[(data.foreign_worker == 'A202') & (data.personal_status.isin(['A91', 'A93', 'A94']))]
+            data_priv_nonpriv = data[(data.foreign_worker == 'A202') & (~data.personal_status.isin(['A91', 'A93', 'A94']))]
+            data_nonpriv_priv = data[(data.foreign_worker != 'A202') & (data.personal_status.isin(['A91', 'A93', 'A94']))]
+            data_nonpriv_nonpriv = data[(data.foreign_worker != 'A202') & (~data.personal_status.isin(['A91', 'A93', 'A94']))]
             return data_priv_priv, data_priv_nonpriv, data_nonpriv_priv, data_nonpriv_nonpriv
         else:
             raise ValueError(f"Unsupported: {criteria1} {criteria2}")
