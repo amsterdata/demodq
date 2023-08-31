@@ -81,7 +81,7 @@ def detect_mislabeled_via_cleanlab(data, dataset, seed=None):
     y = all_labels
 
     model = SGDClassifier(loss='log_loss').fit(X, y)
-    cl = cleanlab.classification.CleanLearning(model)
+    cl = cleanlab.classification.CleanLearning(model, seed=seed)
 
     label_issues = cl.find_label_issues(X, y)
     label_issue_indexes = np.array(label_issues.is_label_issue)
