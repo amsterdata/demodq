@@ -26,8 +26,8 @@ def detect_disparate_errors(dataset, criteria, columns, error_type, detector):
 
 def analyse_marked(error_type, criteria, dataset, marked, column='*'):
 
-    data_priv, data_nonpriv = dataset.partition_data_by(dataset.as_df(), criteria)
-    data_dirty_priv, data_dirty_nonpriv = dataset.partition_data_by(marked, criteria)
+    data_priv, data_nonpriv = dataset.partition_data_by_single_axis(dataset.as_df(), criteria)
+    data_dirty_priv, data_dirty_nonpriv = dataset.partition_data_by_single_axis(marked, criteria)
 
     num_priv = len(data_priv)
     num_dirty_priv = len(data_dirty_priv)

@@ -46,7 +46,7 @@ def train_and_evaluate(dataset, criteria, train, test):
     accuracy = model.score(test, test_labels)
     auc = roc_auc_score(y_true, y_pred)
 
-    priv, nonpriv = dataset.partition_data_by(test, criteria)
+    priv, nonpriv = dataset.partition_data_by_single_axis(test, criteria)
 
     priv_labels = dataset.extract_label_for_prediction_task(priv)
     nonpriv_labels = dataset.extract_label_for_prediction_task(nonpriv)

@@ -47,7 +47,7 @@ class FolktablesDataset(Dataset):
     def partition_by(self, criteria):
         return super().partition_by(criteria)
 
-    def partition_data_by(self, data, criteria):
+    def partition_data_by_single_axis(self, data, criteria):
         if criteria == 'race':
             data_priv = data[data.RAC1P == 1]
             data_nonpriv = data[data.RAC1P != 1]
@@ -63,7 +63,7 @@ class FolktablesDataset(Dataset):
         else:
             raise ValueError(f"Unsupported: {criteria}")
 
-    def partition_data_by(self, data, criteria1, criteria2):
+    def partition_data_by_intersection(self, data, criteria1, criteria2):
         if criteria1 == 'race' and criteria2 == 'sex':
             data_priv_priv = data[(data.RAC1P == 1) & (data.SEX == 1)]
             data_priv_nonpriv = data[(data.RAC1P == 1) & (data.SEX != 1)]

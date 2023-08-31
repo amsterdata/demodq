@@ -40,7 +40,7 @@ class CardioDataset(Dataset):
     def demographic_criteria(self):
         return ['sex']
 
-    def partition_data_by(self, data, criteria):
+    def partition_data_by_single_axis(self, data, criteria):
         if criteria == 'sex':
             data_priv = data[data.gender == 1]
             data_nonpriv = data[data.gender != 1]
@@ -60,7 +60,7 @@ class CardioDataset(Dataset):
         else:
             raise ValueError(f"Unsupported: {criteria}")
 
-    def partition_data_by(self, data, criteria1, criteria2):
+    def partition_data_by_intersection(self, data, criteria1, criteria2):
         if criteria1 == 'sex' and criteria2 == 'age@35':
             data_priv_priv = data[(data.gender == 1) & (data.age > 35*365.25)]
             data_priv_nonpriv = data[(data.gender == 1) & (data.age <= 35*365.25)]

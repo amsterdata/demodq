@@ -52,7 +52,7 @@ class AdultDataset(Dataset):
     def demographic_criteria(self):
         return ['age', 'race', 'sex']
 
-    def partition_data_by(self, data, criteria):
+    def partition_data_by_single_axis(self, data, criteria):
         if criteria == 'race':
             data_priv = data[data.race == 'White']
             data_nonpriv = data[data.race != 'White']
@@ -72,7 +72,7 @@ class AdultDataset(Dataset):
         else:
             raise ValueError(f"Unsupported: {criteria}")
 
-    def partition_data_by(self, data, criteria1, criteria2):
+    def partition_data_by_intersection(self, data, criteria1, criteria2):
         if criteria1 == 'race' and criteria2 == 'sex':
             data_priv_priv = data[(data.race == 'White') & (data.sex == 'Male')]
             data_priv_nonpriv = data[(data.race == 'White') & (data.sex != 'Male')]

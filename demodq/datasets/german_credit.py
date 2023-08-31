@@ -52,7 +52,7 @@ class GermanCreditDataset(Dataset):
     def demographic_criteria(self):
         return ['age']
 
-    def partition_data_by(self, data, criteria):
+    def partition_data_by_single_axis(self, data, criteria):
         if criteria == 'age':
             data_priv = data[data.age > 25]
             data_nonpriv = data[data.age <= 25]
@@ -68,7 +68,7 @@ class GermanCreditDataset(Dataset):
         else:
             raise ValueError(f"Unsupported: {criteria}")
 
-    def partition_data_by(self, data, criteria1, criteria2):
+    def partition_data_by_intersection(self, data, criteria1, criteria2):
         if criteria1 == 'age' and criteria2 == 'sex':
             data_priv_priv = data[(data.age > 25) & (data.personal_status.isin(['A91', 'A93', 'A94']))]
             data_priv_nonpriv = data[(data.age > 25) & (~data.personal_status.isin(['A91', 'A93', 'A94']))]

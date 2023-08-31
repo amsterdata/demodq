@@ -42,8 +42,12 @@ class Dataset(ABC):
         pass
 
     def partition_by(self, criteria):
-        return self.partition_data_by(self.as_df(), criteria)
+        return self.partition_data_by_single_axis(self.as_df(), criteria)
 
     @abstractmethod
-    def partition_data_by(self, data, criteria):
+    def partition_data_by_single_axis(self, data, criteria):
+        pass
+
+    @abstractmethod
+    def partition_data_by_intersection(self, data, criteria1, criteria2):
         pass
