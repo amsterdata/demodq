@@ -7,7 +7,7 @@ from ._base import Dataset
 class CreditDataset(Dataset):
 
     def __init__(self):
-        self.data = pd.read_csv('data/credit/givemesomecredit.csv')
+        self.data = pd.read_csv('data/credit/givemesomecredit.csv', engine="python")
 
     @property
     def name(self):

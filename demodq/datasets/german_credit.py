@@ -16,7 +16,7 @@ class GermanCreditDataset(Dataset):
             'foreign_worker', 'credit']
 
         self.data = pd.read_csv('data/german/german.data', sep=' ', header=None,
-                                names=columns, na_values=['A65', 'A124'])
+                                names=columns, na_values=['A65', 'A124'], engine="python")
 
     @property
     def name(self):

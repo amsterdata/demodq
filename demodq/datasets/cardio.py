@@ -7,7 +7,7 @@ from ._base import Dataset
 class CardioDataset(Dataset):
 
     def __init__(self):
-        data = pd.read_csv('data/cardio/cardio.csv', sep=';')
+        data = pd.read_csv('data/cardio/cardio.csv', sep=';', engine="python")
         self.data = data
 
     @property

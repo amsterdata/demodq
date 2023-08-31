@@ -11,8 +11,8 @@ class AdultDataset(Dataset):
                    'occupation', 'relationship', 'race', 'sex', 'capital-gain', 'capital-loss',
                    'hours-per-week', 'native-country', 'income-level']
 
-        data_train = pd.read_csv('data/adult-income/adult.data', na_values=['?'], header=None, names=columns, sep=", ")
-        data_test = pd.read_csv('data/adult-income/adult.test', na_values=['?'], header=None, names=columns, sep=", ")
+        data_train = pd.read_csv('data/adult-income/adult.data', na_values=['?'], header=None, names=columns, sep=", ", engine="python")
+        data_test = pd.read_csv('data/adult-income/adult.test', na_values=['?'], header=None, names=columns, sep=", ", engine="python")
 
         data = pd.concat([data_train, data_test])
 
