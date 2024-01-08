@@ -165,6 +165,33 @@ def compute_pp(stats, cleaning_method, criteria, flipped, priv, dis):
              (dis_tn / (dis_tn + dis_fn))
 
 
+def compute_dp(stats, cleaning_method, criteria, flipped, priv, dis):
+    if not flipped:
+        priv_tp = stat_value("tp", stats, cleaning_method, criteria, *priv)
+        priv_fp = stat_value("fp", stats, cleaning_method, criteria, *priv)
+        priv_fn = stat_value("fn", stats, cleaning_method, criteria, *priv)
+        priv_tn = stat_value("tn", stats, cleaning_method, criteria, *priv)
+        dis_tp = stat_value("tp", stats, cleaning_method, criteria, *dis)
+        dis_fp = stat_value("fp", stats, cleaning_method, criteria, *dis)
+        dis_fn = stat_value("fn", stats, cleaning_method, criteria, *dis)
+        dis_tn = stat_value("tn", stats, cleaning_method, criteria, *dis)
+
+        return ((priv_tp + priv_fp) / (priv_tp + priv_fp + priv_fn + priv_tn)) - \
+             ((dis_tp + dis_fp) / (dis_tp + dis_fp + dis_fn + dis_tn))
+    else:
+        priv_tn = stat_value("tn", stats, cleaning_method, criteria, *priv)
+        priv_fn = stat_value("fn", stats, cleaning_method, criteria, *priv)
+        priv_fp = stat_value("fp", stats, cleaning_method, criteria, *priv)
+        priv_tp = stat_value("tp", stats, cleaning_method, criteria, *priv)
+        dis_tn = stat_value("tn", stats, cleaning_method, criteria, *dis)
+        dis_fn = stat_value("fn", stats, cleaning_method, criteria, *dis)
+        dis_fp = stat_value("fp", stats, cleaning_method, criteria, *dis)
+        dis_tp = stat_value("tp", stats, cleaning_method, criteria, *dis)
+
+        return ((priv_tn + priv_fn) / (priv_tn + priv_fn + priv_fp + priv_tp)) - \
+             ((dis_tn + dis_fn) / (dis_tn + dis_fn + dis_fp + dis_tp))
+
+
 def evaluate_scores(dirty_scores, cleaning_scores, dirty_accs, cleaning_accs,
                     dataset_name, target_criteria, metric_name, model, error_type, log_file):
     if len(cleaning_scores) > 0:
@@ -278,7 +305,8 @@ def main():
     errors = ["outliers", "missing_values", "mislabel"]
     models = ["logistic_regression", "knn_classification", "XGBoost"]
     metrics = [("equal_opportunity", lambda st, cl, cr, fl: compute_eo(st, cl, cr, fl, priv, dis)),
-               ("predictive_parity", lambda st, cl, cr, fl: compute_pp(st, cl, cr, fl, priv, dis))]
+               ("predictive_parity", lambda st, cl, cr, fl: compute_pp(st, cl, cr, fl, priv, dis)),
+               ("demographic_parity", lambda st, cl, cr, fl: compute_dp(st, cl, cr, fl, priv, dis))]
 
     if args.intersectional_formulation:
         results_filename = os.path.join(args.results_folder,
